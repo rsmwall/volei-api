@@ -215,9 +215,9 @@ A API segue os princípios de arquitetura RESTful. Abaixo estão os endpoints pr
 
 #### Rejeitar Adesão
 
-    Método: ``PATCH``
-    URL: ``/match_requests/{id}/reject``
-    Response Body (Success 200 OK):
+- Método: ``PATCH``
+- URL: ``/match_requests/{id}/reject``
+- Response Body (Success 200 OK):
 
     ```json
     {
