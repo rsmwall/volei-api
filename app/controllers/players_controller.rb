@@ -12,7 +12,7 @@ class PlayersController < ApplicationController
     @player = Player.find(params[:id])
     render json: @player, status: :ok
   rescue ActiveRecord::RecordNotFound
-    render json: { error: 'Jogador não encontrado' }, status: :not_found
+    render json: { error: "Jogador não encontrado" }, status: :not_found
   end
 
   def update
@@ -20,6 +20,7 @@ class PlayersController < ApplicationController
       render json: @player, status: :ok
     else
       render json: @player.errors, status: :unprocessable_content
+    end
   end
 
   def ranking
@@ -32,7 +33,7 @@ class PlayersController < ApplicationController
   def set_player
     @player = Player.find(params[:id])
   rescue ActiveRecord::RecordNotFound
-    render json: { error: 'Jogador não encontrado' }, status: :not_found
+    render json: { error: "Jogador não encontrado" }, status: :not_found
   end
 
   def player_params
