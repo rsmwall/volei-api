@@ -40,7 +40,7 @@ RSpec.describe 'Players API', type: :request do
             tags 'Players'
             produces 'application/json'
             parameter name: :id, in: :path, type: :string, description: 'ID do jogador'
-            
+
             response '200', 'player found' do
                 let(:id) { Player.create(name: 'João', email: 'joao@example.com', gender: 'male', category: 'amador').id }
                 run_test!

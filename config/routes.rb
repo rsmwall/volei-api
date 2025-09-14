@@ -6,8 +6,8 @@ Rails.application.routes.draw do
   get "players/create"
   get "players/show"
   get "players/update"
-  mount Rswag::Ui::Engine => '/api-docs'
-  mount Rswag::Api::Engine => '/api-docs'
+  mount Rswag::Ui::Engine => "/api-docs"
+  mount Rswag::Api::Engine => "/api-docs"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
@@ -16,13 +16,13 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
-  resources :players, only: [:create, :show, :update] do
+  resources :players, only: [ :create, :show, :update ] do
     collection do
       get :ranking
     end
   end
-  resources :matches, only: [:create, :index]
-  resources :match_requests, only: [:create] do
+  resources :matches, only: [ :create, :index ]
+  resources :match_requests, only: [ :create ] do
     member do
       patch :accept
       patch :reject
@@ -30,5 +30,5 @@ Rails.application.routes.draw do
       patch :withdraw
     end
   end
-  resources :ratings, only: [:create]
+  resources :ratings, only: [ :create ]
 end
