@@ -17,4 +17,5 @@ gem 'json'
 group :development, :test do
   gem 'pry-byebug' # Para debug
   gem 'rspec'      # Para testes
+  gem 'dotenv'
 end
