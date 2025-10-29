@@ -9,6 +9,15 @@ class PlayerController < Sinatra::Base
     content_type :json
   end
 
+    # Endpoint: GET /players/ranking (Ranking de Jogadores)
+  get '/players/ranking' do
+    ranking = PlayerRankingService.calculate
+
+    status 200 # Success 200 OK
+    # Response Body: Retorna a lista de jogadores ranqueados
+    ranking.to_json
+  end
+
   # Endpoint: POST /players (Criar jogador)
   # Request Body: { "name": "...", "email": "...", "gender": "...", "category": "..." }
   post '/players' do
