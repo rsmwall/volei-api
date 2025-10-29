@@ -340,7 +340,7 @@ Certifique-se de que você tem o Ruby (versão 3.4+) e o PostgreSQL instalados e
 
 ```bash
 git clone https://github.com/rsmwall/volei-api.git
-cd volei-rails-api
+cd volei-api
 ```
 
 #### 2.2 Configure o ambiente e instale as gems.
@@ -400,5 +400,7 @@ Pull requests são bem-vindos! Se encontrar bugs ou tiver sugestões, abra uma i
 ## Autor
 
 Rafael Ribeiro da Silva
+
 [Github](https://github.com/rsmwall)
+
 [Bluesky](https://bsky.app/profile/rsmwall.dev)
