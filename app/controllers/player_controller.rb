@@ -43,4 +43,28 @@ class PlayerController < Sinatra::Base
       { error: "Player Not Found" }.to_json
     end
   end
+
+  # Endpoint: PATCH /players/{id} (Atualizar jogador)
+  # Request Body: { "category": "string" }
+  patch '/players/:id' do
+    request.body.rewind
+    params.merge!(JSON.parse(request.body.read))
+
+    result = PlayerUpdateService.call(params[:id], params)
+
+    if result[:success]
+      status 200 # Success 200 OK
+      # Response Body: Retorna os dados do jogador atualizado
+      result[:player].to_json(only: [:id, :name, :email, :gender, :category])
+    elsif result[:not_found]
+      status 404 # Not Found
+      { error: "Player not found" }.to_json
+    else
+      status 422 # Unprocessable Entity (Erro de validação)
+      { errors: result[:errors] }.to_json
+    end
+  rescue JSON::ParserError
+    status 400 # Bad Request
+    { error: "Invalid JSON format" }.to_json
+  end
 end
