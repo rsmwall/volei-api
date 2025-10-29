@@ -63,4 +63,21 @@ class MatchRequestController < Sinatra::Base
       { errors: result[:errors] }.to_json
     end
   end
+
+  # Endpoint: PATCH /match_requests/{id}/withdraw (Desistir de Partida)
+  patch '/match_requests/:id/withdraw' do
+    result = MatchRequestWithdrawalService.call(params[:id])
+
+    if result[:success]
+      status 200 # Success 200 OK
+      # Response Body: Retorna o status 'withdrawn'
+      result[:request].to_json(only: [:id, :player_id, :match_id, :status])
+    elsif result[:not_found]
+      status 404 # Not Found
+      { error: "Match request not found." }.to_json
+    else
+      status 422 # Unprocessable Entity (Erro de validação)
+      { errors: result[:errors] }.to_json
+    end
+  end
 end
