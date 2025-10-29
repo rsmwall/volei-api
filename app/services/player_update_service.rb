@@ -12,7 +12,7 @@ class PlayerUpdateService
       return { success: true, player: player }
     else
       # falha
-      return { success: false, errors: player.errors.full_message }
+      return { success: false, errors: player.errors.full_messages }
     end
   end
 end

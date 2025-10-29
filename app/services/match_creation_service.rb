@@ -13,7 +13,7 @@ class MatchCreationService
       return { success: true, match: match }
     else
       # falha
-      return { success: false, errors: match.errors.full_message }
+      return { success: false, errors: match.errors.full_messages }
     end
   end
 end
