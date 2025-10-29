@@ -347,7 +347,7 @@ cd volei-rails-api
 
 Crie o arquivo ``.env`` na raiz do projeto para suas credenciais de banco de dados:
 
-```TOML
+```text
 DB_USERNAME=seu_usuario
 DB_PASSWORD=sua_senha
 DB_HOST=localhost
