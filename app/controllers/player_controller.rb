@@ -29,4 +29,18 @@ class PlayerController < Sinatra::Base
     status 400 # Bad Request
     { error: "Invalid JSON Format" }.to_json
   end
+
+  # Endpoint: GET /players/{id} (buscar jogador)
+  get '/players/:id' do
+    player = PlayerQueryService.find_by_id(params[:id])
+
+    if player
+      status 200 # success 200 OK
+      # Response body: retorna os dados do jogador
+      player.to_json(only: [:id, :name, :email, :gender, :category])
+    else
+      status 404 # Not Found
+      { error: "Player Not Found" }.to_json
+    end
+  end
 end
