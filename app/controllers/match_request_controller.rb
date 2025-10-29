@@ -46,4 +46,21 @@ class MatchRequestController < Sinatra::Base
       { errors: result[:errors] }.to_json
     end
   end
+
+  # Endpoint: PATCH /match_requests/{id}/reject (Rejeitar Adesão)
+  patch '/match_requests/:id/reject' do
+    result = MatchRequestRejectionService.call(params[:id])
+
+    if result[:success]
+      status 200 # Success 200 OK
+      # Response Body
+      result[:request].to_json(only: [:id, :player_id, :match_id, :status])
+    elsif result[:not_found]
+      status 404 # Not Found
+      { error: "Match request not found." }.to_json
+    else
+      status 422 # Unprocessable Entity (Erro de validação)
+      { errors: result[:errors] }.to_json
+    end
+  end
 end
