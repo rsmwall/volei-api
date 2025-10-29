@@ -27,4 +27,16 @@ class MatchController < Sinatra::Base
     status 400 # Bad Request
     { error: "Invalid JSON format" }.to_json
   end
+
+  # Endpoint: GET /matches (Listar Partidas)
+  get '/matches' do
+    matches = MatchQueryService.all
+
+    status 200 # Success 200 OK
+    
+    # Response Body: Retorna uma array de partidas
+    matches.map do |match|
+      match.as_json(only: [:id, :title, :location, :date, :category, :status, :organizer_id])
+    end.to_json
+  end
 end
