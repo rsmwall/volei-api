@@ -6,6 +6,7 @@ source 'https://rubygems.org'
 gem 'sinatra', require: 'sinatra/base'
 gem 'puma' # Servidor web
 gem 'rake'
+gem "rackup", "~> 2.2"
 
 # Banco de Dados
 gem 'activerecord'
