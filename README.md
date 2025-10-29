@@ -339,7 +339,7 @@ Certifique-se de que você tem o Ruby (versão 3.4+) e o PostgreSQL instalados e
 #### 2.1 Clone o repositório do projeto.
 
 ```bash
-git clone https://github.com/rsmwall/volei-rails-api.git
+git clone https://github.com/rsmwall/volei-api.git
 cd volei-rails-api
 ```
 
