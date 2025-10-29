@@ -1,4 +1,4 @@
-# Vôlei Rails API
+# Vôlei API
 
 ## Descrição do Projeto
 
