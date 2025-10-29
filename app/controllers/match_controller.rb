@@ -39,4 +39,21 @@ class MatchController < Sinatra::Base
       match.as_json(only: [:id, :title, :location, :date, :category, :status, :organizer_id])
     end.to_json
   end
+
+  # Endpoint: PATCH /match_requests/{id}/pay (Marcar Pagamento)
+  patch '/match_requests/:id/pay' do
+    result = MatchRequestPaymentService.call(params[:id])
+
+    if result[:success]
+      status 200 # Success 200 OK
+      # Response Body: Inclui o status do pagamento
+      result[:request].to_json(only: [:id, :player_id, :match_id, :status, :payment_status])
+    elsif result[:not_found]
+      status 404 # Not Found
+      { error: "Match request not found." }.to_json
+    else
+      status 422 # Unprocessable Entity (Erro de validação)
+      { errors: result[:errors] }.to_json
+    end
+  end
 end
