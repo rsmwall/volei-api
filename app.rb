@@ -24,6 +24,7 @@ class VoleiApi < Sinatra::Base
 
   use PlayerController
   use MatchController
+  use MatchRequestController
 
   # middleware de erro
   error do
