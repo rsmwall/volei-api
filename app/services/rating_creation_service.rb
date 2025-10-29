@@ -20,7 +20,7 @@ class RatingCreationService
     }
 
     rating = Rating.new(final_params)
-
+    
     if rating.save
       return { success: true, rating: rating }
     else
