@@ -10,9 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_10_29_020952) do
+ActiveRecord::Schema[8.1].define(version: 2025_10_29_032700) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "matches", force: :cascade do |t|
+    t.string "category", null: false
+    t.datetime "created_at", null: false
+    t.datetime "date", null: false
+    t.string "location", null: false
+    t.integer "organizer_id", null: false
+    t.string "status", default: "scheduled"
+    t.string "title", null: false
+    t.datetime "updated_at", null: false
+    t.index ["organizer_id"], name: "index_matches_on_organizer_id"
+  end
 
   create_table "players", force: :cascade do |t|
     t.string "category"
