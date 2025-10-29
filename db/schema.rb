@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_10_29_035133) do
+ActiveRecord::Schema[8.1].define(version: 2025_10_29_043045) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -46,6 +46,19 @@ ActiveRecord::Schema[8.1].define(version: 2025_10_29_035133) do
     t.index ["email"], name: "index_players_on_email", unique: true
   end
 
+  create_table "ratings", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "match_id", null: false
+    t.integer "rated_id", null: false
+    t.integer "rater_id", null: false
+    t.integer "score", null: false
+    t.datetime "updated_at", null: false
+    t.index ["rater_id", "rated_id", "match_id"], name: "index_ratings_on_rater_id_and_rated_id_and_match_id", unique: true
+  end
+
   add_foreign_key "match_requests", "matches"
   add_foreign_key "match_requests", "players"
+  add_foreign_key "ratings", "matches"
+  add_foreign_key "ratings", "players", column: "rated_id"
+  add_foreign_key "ratings", "players", column: "rater_id"
 end
