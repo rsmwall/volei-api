@@ -5,10 +5,12 @@ source 'https://rubygems.org'
 # Web Framework
 gem 'sinatra', require: 'sinatra/base'
 gem 'puma' # Servidor web
+gem 'rake'
 
 # Banco de Dados
 gem 'activerecord'
 gem 'pg'
+gem 'sinatra-activerecord'
 
 # JSON
 gem 'json'

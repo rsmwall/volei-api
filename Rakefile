@@ -1,5 +1,6 @@
 require 'sinatra'
 require 'active_record'
+require 'sinatra/activerecord'
 require 'sinatra/activerecord/rake'
 
 # Carregar a aplicacao
