@@ -2,8 +2,18 @@
 
 ## Descrição do Projeto
 
-O "Vôlei Rails API" é o backend da plataforma, construído com Ruby on Rails e documentado com Rswag. A API gerencia jogadores, partidas e um sistema de avaliação completo, servindo como base para uma aplicação web ou mobile. Desenvolvido para a disciplina de Programação
-para Web II do curso de ADS.
+O "Vôlei API" é o backend da plataforma, **construído com Ruby e Sinatra**, utilizando o **ActiveRecord** para persistência com o **PostgreSQL**. A API gerencia jogadores, partidas e um sistema de avaliação completo, servindo como base para uma aplicação web ou mobile. Segue os princípios de **Clean Architecture e Domain-Driven Design (DDD)**. Desenvolvido para a disciplina de Programação para Web II do curso de ADS.
+
+## Sumário
+
+* [Requisitos Funcionais](#requisitos-funcionais)
+* [Estrutura do Projeto (Clean/DDD)](#estrutura-do-projeto-cleanddd)
+* [Endpoints da API e Modelos de Dados](#endpoints-da-api-e-modelos-de-dados)
+    * [Jogadores](#jogadores)
+    * [Partidas](#partidas)
+    * [Pedidos de Adesão](#pedidos-de-adesão)
+    * [Avaliações](#avaliações)
+* [Instalação e Teste](#instalação-e-teste)
 
 ## Requisitos Funcionais
 
@@ -11,23 +21,49 @@ A API foi projetada para atender aos seguintes requisitos:
 
 #### Gerenciamento de Jogadores
 
-- Registro de Jogadores: Permite que jogadores se registrem com informações básicas (sexo, categoria).
+- **Registro de Jogadores:** Permite que jogadores se registrem com informações básicas (sexo, categoria).
 
-- Visualização e Atualização de Perfil: Jogadores podem visualizar e atualizar seus dados.
+- **Visualização e Atualização de Perfil:** Jogadores podem visualizar e atualizar seus dados.
 
 #### Gerenciamento de Partidas
 
-- Criação de Partidas: Jogadores podem criar partidas, definindo local, data e categoria.
+- **Criação de Partidas:** Jogadores podem criar partidas, definindo local, data e categoria.
 
-- Adesão e Status: Jogadores podem solicitar adesão a partidas, e organizadores podem aceitar ou rejeitar os pedidos.
+- **Adesão e Status:** Jogadores podem solicitar adesão a partidas, e organizadores podem aceitar ou rejeitar os pedidos.
 
-- Pagamento e Desistência: Gerencia o status de pagamento e a desistência de jogadores.
+- **Pagamento e Desistência:** Gerencia o status de pagamento e a desistência de jogadores.
 
 #### Sistema de Avaliação e Ranking
 
-- Avaliações: Jogadores podem avaliar outros jogadores e organizadores após as partidas.
+- **Avaliações:** Jogadores podem avaliar outros jogadores e organizadores após as partidas.
 
-- Ranking: Um sistema de ranking é gerado com base na pontuação média das avaliações.
+- **Ranking:** Um sistema de ranking é gerado com base na pontuação média das avaliações.
+
+## Estrutura do Projeto (Clean/DDD)
+
+A API segue o padrão Modular do Sinatra e a Arquitetura Limpa (Clean Architecture / DDD), separando as responsabilidades em camadas: Apresentação (Controllers), Aplicação (Services) e Domínio (Models).
+
+```text
+volei-api/
+├── config/                  # Configuração da Aplicação
+│   └── database.yml         # Configuração da conexão com o PostgreSQL.
+├── db/                      # Gerenciamento do Banco de Dados
+│   └── migrate/             # Arquivos de Migração (criação e alteração de tabelas).
+├── app/                     # Lógica da Aplicação (Camadas)
+│   ├── models/              # Camada de DOMÍNIO (Entidades)
+│   │   ├── player.rb        # Entidade Player (com regras de negócio e validações).
+│   │   ├── match.rb         # Entidade Match.
+│   │   ├── match_request.rb # Entidade MatchRequest.
+│   │   └── rating.rb        # Entidade Rating.
+│   ├── services/            # Camada de APLICAÇÃO (Regras de Negócio/Casos de Uso - DDD)
+│   │   └── *.rb             # Lógica complexa (e.g., MatchCreationService, PlayerRankingService).
+│   └── controllers/         # Camada de APRESENTAÇÃO (Interface/Sinatra Endpoints)
+│       └── *_controller.rb  # Define as rotas HTTP e chama os Services (e.g., PlayerController).
+├── .env                     # Variáveis de ambiente (credenciais do DB) - IGNORADO pelo Git.
+├── Gemfile                  # Lista de dependências (gems: sinatra, activerecord, pg, dotenv).
+├── Rakefile                 # Tarefas do Rake (gerenciamento de migrations do ActiveRecord).
+└── app.rb                   # Ponto de entrada da aplicação (configura o DB e monta os Controllers).
+```
 
 ## Endpoints da API e Modelos de Dados
 
@@ -307,7 +343,17 @@ git clone https://github.com/rsmwall/volei-rails-api.git
 cd volei-rails-api
 ```
 
-#### 2.2 Instale as gems do projeto.
+#### 2.2 Configure o ambiente e instale as gems.
+
+Crie o arquivo ``.env`` na raiz do projeto para suas credenciais de banco de dados:
+
+```TOML
+DB_USERNAME=seu_usuario
+DB_PASSWORD=sua_senha
+DB_HOST=localhost
+```
+
+Instale as gems do projeto:
 
 ```bash
 bundle install
@@ -316,34 +362,35 @@ bundle install
 #### 2.3 Crie e prepare o banco de dados.
 
 ```bash
-rails db:create
-rails db:migrate
+bundle exec rake db:create
+bundle exec rake db:migrate
 ```
 
-### 3. Como Testar
+### 3. Como rodar e testar a API
 
-#### 3.1 Gere a documentação da API: A documentação é gerada automaticamente a partir dos testes.
+#### 3.1 Inicie o servidor local:
 
 ```bash
-bundle exec rake rswag:specs:swaggerize
+bundle exec ruby app.rb
+# O servidor rodará e informará a porta (geralmente 4567 ou 3000)
 ```
 
-#### 3.2 Execute a suíte de testes:
+#### 3.2 Teste os Endpoints:
 
-```bash
-bundle exec rspec
+Use uma ferramenta de teste de API (como Insomnia ou Postman) para interagir com os endpoints.
+
+**Exemplo de Rota de Teste de Status:**
+
+```text
+GET http://localhost:4567/
 ```
 
-#### 3.4 Inicie o servidor local:
+**Exemplo de Rota de Criação de Jogador:**
 
-```bash
-rails server
-```
-
-#### 3.5 Acesse a documentação da API: Abra seu navegador e acesse a URL abaixo. Você poderá ver todos os endpoints e testá-los diretamente pela interface.
-
-```
-http://localhost:3000/api-docs
+```text
+POST http://localhost:4567/players
+Content-Type: application/json
+Body: { "name": "Teste", "email": "teste@email.com", "gender": "M", "category": "Novato" }
 ```
 
 ## Contribuições
