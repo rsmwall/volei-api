@@ -1,18 +1,11 @@
-default: &default
-  adapter: postgresql
-  encoding: unicode
+development:
+  adapter: sqlite3
+  database: db/development.sqlite3
   pool: 5
   timeout: 5000
-  host: <%= ENV['DB_HOST'] %>
-
-development: 
-  <<: *default
-  database: volei_api_development
-  username: <%= ENV['DB_USERNAME'] %>
-  password: <%= ENV['DB_PASSWORD'] %>
 
 test:
-  <<: *default
-  database: volei_api_test
-  username: <%= ENV['DB_USERNAME'] %>
-  password: <%= ENV['DB_PASSWORD'] %>
+  adapter: sqlite3
+  database: db/test.sqlite3
+  pool: 5
+  timeout: 5000

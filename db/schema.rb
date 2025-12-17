@@ -1,64 +1,68 @@
-# This file is auto-generated from the current state of the database. Instead
-# of editing this file, please use the migrations feature of Active Record to
-# incrementally modify your database, and then regenerate this schema definition.
-#
-# This file is the source Rails uses to define your schema when running `bin/rails
-# db:schema:load`. When creating a new database, `bin/rails db:schema:load` tends to
-# be faster and is potentially less error prone than running all of your
-# migrations from scratch. Old migrations may fail to apply correctly if those
-# migrations use external dependencies or application code.
-#
-# It's strongly recommended that you check this file into your version control system.
+# db/schema.rb
 
-ActiveRecord::Schema[8.1].define(version: 2025_10_29_043045) do
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "pg_catalog.plpgsql"
+ActiveRecord::Schema.define(version: 2025_12_17_000000) do
 
-  create_table "match_requests", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.integer "match_id", null: false
-    t.string "payment_status", default: "unpaid"
-    t.integer "player_id", null: false
-    t.string "status", default: "pending"
-    t.datetime "updated_at", null: false
-    t.index ["player_id", "match_id"], name: "index_match_requests_on_player_id_and_match_id", unique: true
-  end
-
-  create_table "matches", force: :cascade do |t|
-    t.string "category", null: false
-    t.datetime "created_at", null: false
-    t.datetime "date", null: false
-    t.string "location", null: false
-    t.integer "organizer_id", null: false
-    t.string "status", default: "scheduled"
-    t.string "title", null: false
-    t.datetime "updated_at", null: false
-    t.index ["organizer_id"], name: "index_matches_on_organizer_id"
-  end
-
-  create_table "players", force: :cascade do |t|
+  create_table "users", force: :cascade do |t|
+    t.string "name"
+    t.string "email"
     t.string "category"
-    t.datetime "created_at", null: false
-    t.string "email", null: false
     t.string "gender"
-    t.string "name", null: false
-    t.datetime "updated_at", null: false
-    t.index ["email"], name: "index_players_on_email", unique: true
-  end
-
-  create_table "ratings", force: :cascade do |t|
+    t.string "password_digest" # Senha
+    t.string "role", default: "participant"
+    t.string "city"
+    t.string "photo_url"
     t.datetime "created_at", null: false
-    t.integer "match_id", null: false
-    t.integer "rated_id", null: false
-    t.integer "rater_id", null: false
-    t.integer "score", null: false
     t.datetime "updated_at", null: false
-    t.index ["rater_id", "rated_id", "match_id"], name: "index_ratings_on_rater_id_and_rated_id_and_match_id", unique: true
   end
 
-  add_foreign_key "match_requests", "matches"
-  add_foreign_key "match_requests", "players"
-  add_foreign_key "ratings", "matches"
-  add_foreign_key "ratings", "players", column: "rated_id"
-  add_foreign_key "ratings", "players", column: "rater_id"
+  create_table "events", force: :cascade do |t|
+    t.string "title"
+    t.string "location"
+    t.datetime "date"
+    t.string "category"
+    t.string "status", default: "open"
+    t.integer "user_id" # Organizador
+    t.text "description"
+    t.decimal "price", precision: 10, scale: 2
+    t.string "event_type", default: "free"
+    t.integer "max_attendees"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "registrations", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "event_id"
+    t.string "status", default: "pending"
+    t.integer "checkins_count", default: 0
+    t.string "payment_status", default: "pending"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "reviews", force: :cascade do |t|
+    t.integer "event_id"
+    t.integer "user_id"
+    t.integer "score"
+    t.text "comment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "friendships", force: :cascade do |t|
+    t.integer "requester_id"
+    t.integer "receiver_id"
+    t.string "status", default: "pending"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.integer "sender_id"
+    t.integer "receiver_id"
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
 end

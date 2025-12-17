@@ -1,6 +1,6 @@
 require 'sinatra/base'
 
-class RatingController < Sinatra::Base
+class RatingsController < Sinatra::Base
   set :root, File.expand_path('../../', __dir__)
 
   before do

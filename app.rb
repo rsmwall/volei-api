@@ -3,6 +3,8 @@ require 'active_record'
 require 'json'
 require 'yaml'
 require 'dotenv/load' if ENV['RACK_ENV'] != 'production'
+require 'rack/cors'
+require './app/controllers/auth_controller'
 
 # configuraçao do active record
 db_config_file = File.read('config/database.yml')
@@ -22,10 +24,21 @@ class VoleiApi < Sinatra::Base
     set :show_exceptions, false
   end
 
-  use PlayerController
-  use MatchController
-  use MatchRequestController
-  use RatingController
+  # Configure o CORS para aceitar requisições do Frontend
+  use Rack::Cors do
+    allow do
+      origins '*'
+      resource '*', headers: :any, methods: [:get, :post, :patch, :put, :delete, :options]
+    end
+  end
+
+  use RegistrationsController
+  use PlayersController
+  use MatchesController
+  use RatingsController
+  use AuthController
+  use FriendshipsController
+  use ReviewsController
 
   # middleware de erro
   error do
@@ -43,5 +56,5 @@ end
 
 # iniciando a aplicacao
 if app_file = $0
-  VoleiApi.run!
+   VoleiApi.run!
 end

@@ -10,11 +10,14 @@ gem "rackup", "~> 2.2"
 
 # Banco de Dados
 gem 'activerecord'
-gem 'pg'
 gem 'sinatra-activerecord'
 
 # JSON
 gem 'json'
+
+gem 'rack-cors'
+gem 'sqlite3'
+gem 'bcrypt'
 
 # Ferramentas de Desenvolvimento/Teste
 group :development, :test do
